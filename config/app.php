@@ -108,6 +108,8 @@ return [
 
     'faker_locale' => 'en_US',
 
+    'faker_icu' => env('FAKER_ICU', false),
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

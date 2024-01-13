@@ -17,6 +17,7 @@ class ConfirmationTypeSeeder extends Seeder
      */
     public function run()
     {
+        DB::beginTransaction();
         try {//
             $datas = [
                 ['id' => 1, 'name' => 'Email confirmation'],

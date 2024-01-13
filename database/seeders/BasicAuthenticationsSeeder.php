@@ -21,6 +21,7 @@ class BasicAuthenticationsSeeder extends Seeder
      */
     public function run()
     {
+        DB::beginTransaction();
         try {//
             $this->command->info('disabling foreignkeys check');
             Schema::disableForeignKeyConstraints();
