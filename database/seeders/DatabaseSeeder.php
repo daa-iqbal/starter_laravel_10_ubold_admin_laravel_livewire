@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(BasicAuthenticationsSeeder::class);
         $this->call(ConfirmationTypeSeeder::class);
+        $this->call(BarangSeeder::class);
+        $this->call(PasienSeeder::class);
+        $this->call(InvoiceAndInvoiceDetailsSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }
