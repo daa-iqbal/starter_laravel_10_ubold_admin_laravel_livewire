@@ -15,9 +15,7 @@ use App\Http\Controllers\InvoiceDetailController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [InvoiceController::class,'index']);
 
 Route::group([ 'prefix'=>'invoice'], function() {
     Route::get('index', [InvoiceController::class,'index'])->name('invoice.index');

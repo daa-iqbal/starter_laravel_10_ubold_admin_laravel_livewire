@@ -31,8 +31,8 @@ class InvoiceDetailController extends Controller
     }
 
     public function index(Request $request,$id){
-
-        return view($this->view.'index',[]);
+        $data = Invoice::with(['pasien'])->where('id',$id)->first();
+        return view($this->view.'index',['data'=> $data]);
     }
     public function datatable(Request $request,$id){
         $datas = collect([]);
