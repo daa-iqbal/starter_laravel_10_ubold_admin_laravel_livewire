@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group([ 'prefix'=>'invoice'], function() {
+    Route::get('index', [InvoiceController::class,'index'])->name('invoice.index');
+    Route::get('datatable', [InvoiceController::class,'datatable'])->name('invoice.datatable');
+
+});
+Route::group([ 'prefix'=>'invoice-detail'], function() {
+    Route::get('index/{id}', [InvoiceDetailController::class,'index'])->name('invoice-detail.index');
+    Route::get('datatable/{id}', [InvoiceDetailController::class,'datatable'])->name('invoice-detail.datatable');
+
+});
+
+

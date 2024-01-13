@@ -42,7 +42,7 @@ class InvoiceDetail extends Model
 
 
     public function barang(){
-        return $this->hasMany('App\Models\Barang', 'barang_id', 'id');
+        return $this->hasMany('App\Models\Barang', 'id', 'barang_id');
     }
 
     public function invoice(){
