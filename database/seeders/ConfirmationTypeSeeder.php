@@ -1,8 +1,12 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use App\Models\ConfirmationType;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Schema;
+use DB;
 
 class ConfirmationTypeSeeder extends Seeder
 {
@@ -13,22 +17,31 @@ class ConfirmationTypeSeeder extends Seeder
      */
     public function run()
     {
-        $datas = [
-            ['id' => 1, 'name' => 'Email confirmation'],
-            ['id' => 2, 'name' => 'Reset Password confirmation'],
-            ['id' => 3, 'name' => 'Change Phone Number Confirmation'],
-            ['id' => 4, 'name' => 'Change Email Confirmation'],
-        ];
+        try {//
+            $datas = [
+                ['id' => 1, 'name' => 'Email confirmation'],
+                ['id' => 2, 'name' => 'Reset Password confirmation'],
+                ['id' => 3, 'name' => 'Change Phone Number Confirmation'],
+                ['id' => 4, 'name' => 'Change Email Confirmation'],
+            ];
 
-        foreach ($datas as $data) {
-            if (ConfirmationType::where('id',$data['id'])->count()==0) {
-                DB::table('confirmation_types')->insert(array_merge($data, [ 
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]));
-            }else{
-                ConfirmationType::where('id',$data['id'])->update($data);
+            foreach ($datas as $data) {
+                if (ConfirmationType::where('id',$data['id'])->count()==0) {
+                    DB::table('confirmation_types')->insert(array_merge($data, [
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]));
+                }else{
+                    ConfirmationType::where('id',$data['id'])->update($data);
+                }
             }
+            DB::commit();
+
+            //     // all good
+        } catch (QueryException $e) {
+            DB::rollback();
+            $this->command->info($e->getMessage());
+            // something went wrong
         }
     }
 }

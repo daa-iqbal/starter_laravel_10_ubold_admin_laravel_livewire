@@ -15,10 +15,10 @@ class CreateConfirmationUsersTable extends Migration
     {
         try{
             Schema::create('confirmation_users', function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->unsignedBigInteger('user_id');
+                $table->string('id')->primary();
+                $table->string('user_id')->nullable();
                 $table->string('code')->unique();
-                $table->timestamp('expired_at');
+                $table->dateTime('expired_at');
                 $table->unsignedBigInteger('confirmation_type_id');
                 $table->bigInteger('created_by_id')->nullable()->default(0);
                 $table->bigInteger('updated_by_id')->nullable()->default(0);

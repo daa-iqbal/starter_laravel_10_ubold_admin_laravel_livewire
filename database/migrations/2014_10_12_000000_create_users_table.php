@@ -14,9 +14,9 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->string('id')->primary();
             $table->string('name')->nullable();
-            $table->string('username')->nullable();
+            $table->string('kode')->nullable();
             $table->string('email')->unique();
             $table->dateTime('email_verified_at')->nullable();
             $table->string('password')->nullable();
@@ -39,9 +39,9 @@ class CreateUsersTable extends Migration
             $table->string('device_info')->nullable()->default(NULL);
 
             //$table->foreign('file_id')->references('id')->on('files')->onDelete('set null');
-            $table->bigInteger('created_by_id')->nullable()->default(0);
-            $table->bigInteger('updated_by_id')->nullable()->default(0);
-            $table->bigInteger('deleted_by_id')->nullable()->default(0);
+            $table->string('created_by_id')->nullable();
+            $table->string('updated_by_id')->nullable();
+            $table->string('deleted_by_id')->nullable();
             $table->rememberToken();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();

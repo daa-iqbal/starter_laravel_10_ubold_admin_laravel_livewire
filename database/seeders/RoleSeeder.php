@@ -1,7 +1,12 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\Models\Role;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Schema;
+use DB;
 
 class RoleSeeder extends Seeder
 {
@@ -12,22 +17,28 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('roles')->truncate();
-        Schema::enableForeignKeyConstraints();
-        $statusPegawai = [
-            ['id' => 1, 'name' => 'super-admin','display_name' => 'Super Admin','description'=>'Super Admin'],
-            ['id' => 2, 'name' => 'admin-all','display_name' => 'Admin All','description'=>'Admin All'],
-            ['id' => 3, 'name' => 'learner','display_name' => 'Learner','description'=>'Learner'],
-            ['id' => 4, 'name' => 'admin-cs','display_name' => 'Admin CS','description'=>'Admin CS'],
-            ['id' => 5, 'name' => 'admin-pembayaran','display_name' => 'Admin Pembayaran','description'=>'Admin Pembayaran'],
-            ['id' => 6, 'name' => 'teacher','display_name' => 'Teacher','description'=>'Teacher'],
-           
-        ];
-        foreach ($statusPegawai as $status) {
-	        DB::table('roles')->insert(array_merge($status, [
-                'created_at' => Carbon::now(),
-            ]));
+        try{
+            Schema::disableForeignKeyConstraints();
+            DB::table('roles')->truncate();
+            Schema::enableForeignKeyConstraints();
+            $statusPegawai = [
+                ['name' => 'super-admin','display_name' => 'Super Admin','description'=>'Super Admin'],
+
+                ['name' => 'pasien','display_name' => 'Pasien','description'=>'Psien'],
+
+
+
+            ];
+            foreach ($statusPegawai as $status) {
+                Role::create($status);
+            }
+            DB::commit();
+
+            //     // all good
+        } catch (QueryException $e) {
+            DB::rollback();
+            $this->command->info($e->getMessage());
+            // something went wrong
         }
 
     }

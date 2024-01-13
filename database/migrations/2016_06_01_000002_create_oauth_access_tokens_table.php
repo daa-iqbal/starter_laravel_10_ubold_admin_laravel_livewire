@@ -31,15 +31,15 @@ class CreateOauthAccessTokensTable extends Migration
     public function up()
     {
         $this->schema->create('oauth_access_tokens', function (Blueprint $table) {
-            $table->string('id', 100)->primary();
-            $table->unsignedBigInteger('user_id')->nullable()->index();
-            $table->unsignedBigInteger('client_id');
+            $table->string('id')->primary();
+            $table->string('user_id')->nullable()->index();
+            $table->string('client_id')->nullable();
             $table->string('name')->nullable();
             $table->text('scopes')->nullable();
             $table->boolean('revoked');
-            $table->bigInteger('created_by_id')->nullable()->default(0);
-            $table->bigInteger('updated_by_id')->nullable()->default(0);
-            $table->bigInteger('deleted_by_id')->nullable()->default(0);
+            $table->string('created_by_id')->nullable();
+            $table->string('updated_by_id')->nullable();
+            $table->string('deleted_by_id')->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
