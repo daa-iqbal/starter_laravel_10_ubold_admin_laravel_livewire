@@ -163,7 +163,7 @@
 
                             <th valign="middle" >Tanggal</th>
 
-                            <th valign="middle" style="text-align: right;" >Total Harga (Rp)</th>
+                            <th valign="middle" style="" >Total Harga (Rp)</th>
                             <th valign="middle" ></th>
                           </tr>
                           </thead>

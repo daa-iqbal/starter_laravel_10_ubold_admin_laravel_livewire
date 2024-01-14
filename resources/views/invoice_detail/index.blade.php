@@ -187,7 +187,7 @@
 
                             <th valign="middle" >Jumlah</th>
 
-                            <th valign="middle" style="text-align: right;" >Sub Total (Rp)</th>
+                            <th valign="middle" style="" >Sub Total (Rp)</th>
 
                           </tr>
                           </thead>
