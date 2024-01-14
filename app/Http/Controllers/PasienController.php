@@ -89,7 +89,7 @@ class PasienController extends Controller
         ->with('success', 'Proses Menambah Data Pasien berhasil!');
     }
     public function edit(Request $request,$id){
-        $data = Barang::with([])->where('id',$id)->first();
+        $data = User::with([])->where('id',$id)->first();
 
         return view($this->view.'edit',['data'=>$data]);
     }
@@ -135,15 +135,15 @@ class PasienController extends Controller
         //     // all good
         } catch (QueryException $e) {
             DB::rollback();
-            return back()->withErrors(['msg' => 'Gagal Menghapus Data Barang']);
+            return back()->withErrors(['msg' => 'Gagal Menghapus Data Pasien']);
             // something went wrong
         }
 
-        return back()->with('success', 'Berhasil Menghapus Data Barang!');
+        return back()->with('success', 'Berhasil Menghapus Data Pasien!');
     }
     public function generateKode(){
-        $code = $this->str_kode.'-'.substr($this->dateTime->format('Y'),-2). "".$dateTime->format('m')."0000" ;
-        $datas = User::with([])->where('kode','LIKE',$this->str_kode.'-'.substr($this->dateTime->format('Y'),-2)."".$dateTime->format('m').'%')
+        $code = $this->str_kode.'-'.substr($this->dateTime->format('Y'),-2). "".$this->dateTime->format('m')."0000" ;
+        $datas = User::with([])->where('kode','LIKE',$this->str_kode.'-'.substr($this->dateTime->format('Y'),-2)."".$this->dateTime->format('m').'%')
                     ->orderByDesc('kode')->get();
         if(sizeof($datas)){
             $code = $datas[sizeof($datas)-1]->kode;

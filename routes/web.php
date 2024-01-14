@@ -20,8 +20,13 @@ use App\Http\Controllers\PasienController;
 Route::get('/', [InvoiceController::class,'index']);
 
 Route::group([ 'prefix'=>'invoice'], function() {
+    Route::get('create', [InvoiceController::class,'create'])->name('invoice.create');
+    Route::get('edit/{id}', [InvoiceController::class,'edit'])->name('invoice.edit');
     Route::get('index', [InvoiceController::class,'index'])->name('invoice.index');
     Route::get('datatable', [InvoiceController::class,'datatable'])->name('invoice.datatable');
+    Route::post('update/{id}', [InvoiceController::class,'update'])->name('invoice.update');
+    Route::post('store', [InvoiceController::class,'store'])->name('invoice.store');
+    Route::post('delete/{id}', [InvoiceController::class,'delete'])->name('invoice.delete');
 
 });
 Route::group([ 'prefix'=>'invoice-detail'], function() {

@@ -12,8 +12,20 @@
       </div>
 
       <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+        <li class="dropdown d-none d-xl-block">
+            <a class="nav-link dropdown-toggle waves-effect waves-light"  href="{{route('pasien.index')}}" role="button" aria-haspopup="false" aria-expanded="false">
+                Pasien
+            </a>
+        </li>
         <li>
-
+            <a class="nav-link dropdown-toggle waves-effect waves-light"  href="{{route('barang.index')}}" role="button" aria-haspopup="false" aria-expanded="false">
+                Barang/Obat
+            </a>
+        </li>
+        <li>
+            <a class="nav-link dropdown-toggle waves-effect waves-light"  href="{{route('invoice.index')}}" role="button" aria-haspopup="false" aria-expanded="false">
+                Invoice
+            </a>
         </li>
 
         <li>

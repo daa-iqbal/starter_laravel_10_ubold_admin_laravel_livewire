@@ -147,7 +147,7 @@
                           <b ><h4 class="header-title" style="font-size: 1.25rem;"> </h4></b>
                         </div>
                         <div class="btn-group dropdown-btn-group pull-right" style="padding-bottom:20px;">
-
+                            <a href="{{ route('invoice.create')}}" class="btn  button-hover-color-scheme"> <i class="fas fa-plus-square"></i>&#160;  Add New Data</a>
 
                         </div>
                       </div>
@@ -182,7 +182,9 @@
                     </div>
 
                   </div>
-
+                  <form id="form_delete_data" action="" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                  </form>
                 </div> <!-- end card body-->
               </div> <!-- end card -->
             </div><!-- end col-->
@@ -239,13 +241,6 @@
       $(".mlw-li-home").show()
       @if(Session::has('notification'))
 
-        /*Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: "{{Session::has('notification')}}",
-
-        });*/
-
         $("#title-paragraph-alert-modal-success").html("Success!");
         $("#content-paragraph-alert-modal-success").html("{{Session::has('notification')}}");
         $("#continue-alert-modal-success").html("Continue");
@@ -253,44 +248,28 @@
 
       @endif
 
-
-
-      @if(Session::has('failMessage'))
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Failed!',
-        text: "{{Session::has('failMessage')}}",
-
-      })
-      @endif
-
-      @if(Session::has('successMessage'))
-
-        /*Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: "{{Session::has('successMessage')}}",
-
-        })*/
+      @if(Session::has('success'))
         $("#title-paragraph-alert-modal-success").html("Success!");
         $("#content-paragraph-alert-modal-success").html("{{Session::has('successMessage')}}");
         $("#continue-alert-modal-success").html("Continue");
         $("#info-alert-modal-success").modal('show');
+
       @endif
+      @if($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed!',
+            text: 'Terjadi Kesalahan!',
 
-
-
-
-
-
+        });
+      @endif
 
       let url = "{{ route('invoice.datatable') }}";
       let table = $("#datatable").DataTable({
          columnDefs: [
    				 			{ "orderable": false, "targets": [4] },
                 { "type": "num", "width" : "18px", "targets" : 0},
-                { "width" : "350px", "targets" : 1},
+                { "width" : "150px", "targets" : 1},
 
                 { "width" : "100px", "targets" : 3},
                 { "width" : "30px", "targets" : 4},
@@ -375,15 +354,32 @@
                     render: function(data){
                         let linkDetail = "{{route('invoice-detail.index', ':id')}}";
                         linkDetail = linkDetail.replace(':id', data.id);
+                        let linkEdit = "{{route('invoice.edit', ':id')}}";
+                        linkEdit = linkEdit.replace(':id', data.id);
+                        let linkDelete = "{{route('invoice.delete', ':id')}}";
+                        linkDelete= linkDelete.replace(':id', data.id);
                         let aksi = '<div class="tabledit-toolbar btn-toolbar btntoolbar-'+data.id+'"'+
                                         'style="text-align: left;" dataid="'+data.id+'">'+
                                         '<div class="btn-group btn-group-sm btngroup-'+data.id+'" style="float: none;"'+
                                             'dataid="'+data.id+'">'+
 
-                                        '<a href="'+linkDetail+'"'+
-                                            'class="btn  btndetail" dataid="'+data.id+'"'+
-                                            'style="float: none;"><i class="mdi mdi-24px mdi-clipboard-search-outline text-hover-color-scheme" title="See details" tabindex="0"'+
-                                            'data-plugin="tippy" data-tippy-theme="translucent"></i></a>'+
+                                            '<a href="'+linkDetail+'"'+
+                                                'class="btn  btndetail" dataid="'+data.id+'"'+
+                                                'style="float: none;"><i class="mdi mdi-24px mdi-clipboard-search-outline text-hover-color-scheme" title="See details" tabindex="0"'+
+                                                'data-plugin="tippy" data-tippy-theme="translucent"></i></a>'+
+                                                '<div class="dropdown float-end">'+
+                                                    '<a href="#" class="dropdown-toggle arrow-none card-drop text-hover-color-scheme" data-bs-toggle="dropdown" aria-expanded="false">'+
+                                                        '<i class="mdi mdi-dots-horizontal"></i>'+
+                                                    '</a>'+
+                                                    '<div class="dropdown-menu dropdown-menu-end">'+
+
+                                                        '<a  href="'+linkEdit+'" class="tabledit-edit-button dropdown-item btnedit-'+data.id+'"  dataid="'+data.id+'" style="float: none;"><!--<span class="mdi mdi-pencil"></span>--> Edit</a>'+
+
+                                                        '<div class="dropdown-divider"></div>'+
+                                                        '<a  href="javascript:void(0);" class="dropdown-item btndelete" fullname="'+data.no_invoice+'" dataid="'+data.id+'" style="float: none;"><!--<span class="mdi mdi-delete"></span>--> Delete</a>'+
+
+                                                    '</div>'+
+                                                '</div>'+
 
                                         '</div>'+
                                     '</div>';
@@ -420,42 +416,33 @@
     });
 
 
-    $('.btndelete').on('click', function () {
+    $(document).delegate('.btndelete','click', function () {
       let dataid = $(this).attr("dataid");
+
+      console.log(dataid);
       let fullname = $(this).attr("fullname");
       let urldelete = "";
 
       urldelete = urldelete.replace('data.id', dataid);
       $('#top-modal-delete').modal('show');
       dataId =  dataid;
-      urlDelete = urldelete;
-      let labelDelete = 'Delete Content';
-      let contentParagraphDelete = "Do you really want to delete content </br>" + "<b>"+"'"+fullname+"'"+"</b>"+"?";
-      let yesDelete = "Delete Content";
-      let noDelete  = "Never Mind, Keep the Content";
+      let linkDelete = "{{route('invoice.delete', ':id')}}";
+      linkDelete= linkDelete.replace(':id', dataId);
+      $("#form_delete_data").attr("action",linkDelete);
+      let labelDelete = 'Hapus Invoice';
+      let contentParagraphDelete = "Apakah anda yakin akan menghapus data invoice ini </br>" + "<b>"+"'"+fullname+"'"+"</b>"+"?";
+      let yesDelete = "Hapus Invoice";
+      let noDelete  = "Batal Hapus";
       $('#topModalLabelDelete').html(labelDelete);
       $('#content-paragraph-delete').html(contentParagraphDelete);
       $('#yes-delete').html(yesDelete);
       $('#no-delete').html(noDelete);
-      //console.log(urldelete);
-      // Swal.fire({
-      //   title: 'Are you sure want to delete ' + fullname + ' ?',
-      //   text: "You won't be able to revert this!",
-      //   icon: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Yes, delete it!'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //     window.location.href = urldelete;
-      //   }
-      // })
 
-    })
+
+    });
 
    $('#yes-delete').on('click', function() {
-      window.location.href = urlDelete;
+      $('#form_delete_data').submit();
    });
   </script>
   <!-- third party js ends -->

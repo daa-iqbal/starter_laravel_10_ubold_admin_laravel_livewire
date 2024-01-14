@@ -127,8 +127,8 @@ class BarangController extends Controller
         return back()->with('success', 'Berhasil Menghapus Data Barang!');
     }
     public function generateKode(){
-        $code = $this->str_kode.'-'.substr($this->dateTime->format('Y'),-2). "".$dateTime->format('m')."0000" ;
-        $datas = Barang::with([])->where('nama','LIKE',$this->str_kode.'-'.substr($this->dateTime->format('Y'),-2)."".$dateTime->format('m').'%')
+        $code = $this->str_kode.'-'.substr($this->dateTime->format('Y'),-2). "".$this->dateTime->format('m')."0000" ;
+        $datas = Barang::with([])->where('nama','LIKE',$this->str_kode.'-'.substr($this->dateTime->format('Y'),-2)."".$this->dateTime->format('m').'%')
                     ->orderByDesc('nama')->get();
         if(sizeof($datas)){
             $code = $datas[sizeof($datas)-1]->nama;
