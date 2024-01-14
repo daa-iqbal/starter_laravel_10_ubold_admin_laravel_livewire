@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustPermission;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends LaratrustPermission
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+    protected $dates = ['deleted_at'];
     protected $guarded = [];
 
     protected static function boot()

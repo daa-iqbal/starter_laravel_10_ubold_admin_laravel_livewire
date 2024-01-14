@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Barang extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     public $timestamps = true;
     protected $guarded = [];
+    protected $dates = ['deleted_at'];
     protected static function boot()
     {
         parent::boot();

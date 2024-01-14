@@ -8,12 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use LaratrustUserTrait;
+    use LaratrustUserTrait,SoftDeletes;
     use HasApiTokens,Notifiable;
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.

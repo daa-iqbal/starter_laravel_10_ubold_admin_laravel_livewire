@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustRole;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 
@@ -13,7 +14,8 @@ use Illuminate\Support\Str;
 
 class Role extends LaratrustRole
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+    protected $dates = ['deleted_at'];
     protected $guarded = [];
 
     protected static function boot()
